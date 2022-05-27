@@ -1,5 +1,5 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from image import *
+from image_loader import *
 import os
 
 
@@ -25,9 +25,28 @@ class CBC:
         return result
 
     @staticmethod
-    def run_encryption(file):
-        pass
+    def run_encryption(file, error):
+        # Load
+        img = ImageLoader()
+        img.load_file(file)
+        img_v = img.simulate_error(file, error)
+        # Encrypt
+        cbc = CBC()
+        cbc_v = cbc.encrypt(img_v)
+        img_enc = ImageLoader()
+        img_enc.from_vector(cbc_v, img.img)
+        img_enc.save_file(filename_encrypted(file))
+        Secret.save_secret(cbc.key, filename_encrypted(file))
 
     @staticmethod
-    def run_decryption(file):
-        pass
+    def run_decryption(file, error):
+        # Load
+        img = ImageLoader()
+        img.load_file(file)
+        img_v = img.simulate_error(file, error)
+        # Decrypt
+        cbc = CBC(Secret.load_secret(file))
+        dec_v = cbc.decrypt(img_v)
+        img_dec = ImageLoader()
+        img_dec.from_vector(dec_v, img.img)
+        img_dec.save_file(filename_decrypted(file))

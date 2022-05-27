@@ -1,5 +1,5 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from image import *
+from image_loader import *
 import os
 
 
@@ -25,28 +25,30 @@ class CTR:
         result = decryptor.update(ct) + decryptor.finalize()
         return result
 
-    def run_encryption(self, file):
+    def run_encryption(self, file, error):
         # Load
-        img = Image()
+        img = ImageLoader()
         img.load_file(file)
-        img_v = img.to_vector()
+        img_v = img.simulate_error(file, error)
         # Encrypt
         ctr = CTR()
         enc_v = ctr.encrypt(img_v)
-        img_enc = Image()
+        img_enc = ImageLoader()
         img_enc.from_vector(enc_v, img.img)
         img_enc.save_file(filename_encrypted(file))
         self.sec = ctr.key + ctr.iv
-        Secret.save_secret(self.sec, file)
+        Secret.save_secret(self.sec, filename_encrypted(file))
 
-    def run_decryption(self, file):
+    @staticmethod
+    def run_decryption(file, error):
         # Load
-        img = Image()
-        img.load_file(filename_encrypted(file))
-        img_v = img.to_vector()
+        img = ImageLoader()
+        img.load_file(file)
+        img_v = img.simulate_error(file, error)
         # Decrypt
-        ctr = CTR(self.sec[0:32], self.sec[32:48])
+        sec = Secret.load_secret(file)
+        ctr = CTR(sec[0:32], sec[32:48])
         dec_v = ctr.decrypt(img_v)
-        img_dec = Image()
+        img_dec = ImageLoader()
         img_dec.from_vector(dec_v, img.img)
         img_dec.save_file(filename_decrypted(file))
