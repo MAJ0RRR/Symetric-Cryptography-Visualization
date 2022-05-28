@@ -9,7 +9,7 @@ dependencje zawarte w pliku 'requirements.txt'
 Następnie polecenie './main.py' uruchamia aplikację w trybie graficznym.
 
 # Działanie
-Aplikacja potrafi szyfrować i deszyforwać pliki w kilku trybach(ECB,CBC,CTR).
+Aplikacja potrafi szyfrować i deszyforwać pliki w kilku trybach (ECB,CBC,CTR).
 Aby rozpocząć pracę należy wybrać akcję,tryb oraz interesujący nas tryb i kliknąć 'run'.Pliki pozwalające na sensowny ich podgląd będą wyświetlane w miejscu
 okienek ze znakami zapytania.
 W celach dydaktycznych jest możliwość ustawienia poziomu błędu w szyfrogramie w procentach zarówno podczas szyforwania jak i deszyforwania.
