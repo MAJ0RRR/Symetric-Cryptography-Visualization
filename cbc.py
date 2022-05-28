@@ -11,6 +11,7 @@ class CBC:
         if iv is None:
             iv = os.urandom(16)
         self.iv = iv
+        self.sec = None
 
     def encrypt(self, data):
         cipher = Cipher(algorithms.AES(self.key), modes.CBC(self.iv))
@@ -24,19 +25,19 @@ class CBC:
         result = decryptor.update(ct) + decryptor.finalize()
         return result
 
-    @staticmethod
-    def run_encryption(file, error):
+    def run_encryption(self, file, error):
         # Load
         img = ImageLoader()
         img.load_file(file)
         img_v = img.simulate_error(file, error)
         # Encrypt
         cbc = CBC()
-        cbc_v = cbc.encrypt(img_v)
+        enc_v = cbc.encrypt(img_v)
         img_enc = ImageLoader()
-        img_enc.from_vector(cbc_v, img.img)
+        img_enc.from_vector(enc_v, img.img)
         img_enc.save_file(filename_encrypted(file))
-        Secret.save_secret(cbc.key, filename_encrypted(file))
+        self.sec = cbc.key + cbc.iv
+        Secret.save_secret(self.sec, filename_encrypted(file))
 
     @staticmethod
     def run_decryption(file, error):
@@ -45,7 +46,8 @@ class CBC:
         img.load_file(file)
         img_v = img.simulate_error(file, error)
         # Decrypt
-        cbc = CBC(Secret.load_secret(file))
+        sec = Secret.load_secret(file)
+        cbc = CBC(sec[0:32], sec[32:48])
         dec_v = cbc.decrypt(img_v)
         img_dec = ImageLoader()
         img_dec.from_vector(dec_v, img.img)
