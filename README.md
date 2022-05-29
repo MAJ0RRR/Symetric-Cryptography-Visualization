@@ -4,9 +4,9 @@
 Implementacja aplikacji szyfrującej i deszyfrującej pliki z wykorzystaniem kryptografii symetrycznej.
 
 # Instrukcja uruchomienia
-Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny poleceniem './setup.py' , który zainstaluje wszystkie potrzebne
+Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny 'setup.py' , który zainstaluje wszystkie potrzebne
 dependencje zawarte w pliku 'requirements.txt'
-Następnie polecenie './main.py' uruchamia aplikację w trybie graficznym.
+Następnie należy uruchomić skrypt 'main.py',aby otworzyć aplikację w trybie graficznym.
 
 # Działanie
 Aplikacja potrafi szyfrować i deszyforwać pliki w kilku trybach (ECB,CBC,CFB,OFB,CTR).
