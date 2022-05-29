@@ -5,6 +5,8 @@ from PIL import Image, ImageTk
 from ecb import ECB
 from cbc import CBC
 from ctr import CTR
+from cfb import CFB
+from ofb import OFB
 import os
 
 P1_X = 100  # First Image X
@@ -21,8 +23,9 @@ class GUI(Tk):
     def __init__(self):
         super().__init__()
         self.title("Temat 14 - Kryptografia Symetryczna")
-        self.size = 600
-        self.geometry(f"{self.size}x{self.size}")
+        self.width = 600
+        self.height = 800
+        self.geometry(f"{self.width}x{self.height}")
         self.resizable(False, False)
         icon = PhotoImage(file='data/icon.png')
         self.iconphoto(False, icon)
@@ -48,6 +51,8 @@ class GUI(Tk):
         Label(text="Choose mode: ").place(x=450, y=MENU_Y)
         self.r.append(Radiobutton(text="ECB", variable=self.mode, value="ecb", tristatevalue=0))
         self.r.append(Radiobutton(text="CBC", variable=self.mode, value="cbc", tristatevalue=0))
+        self.r.append(Radiobutton(text="CFB", variable=self.mode, value="cfb", tristatevalue=0))
+        self.r.append(Radiobutton(text="OFB", variable=self.mode, value="ofb", tristatevalue=0))
         self.r.append(Radiobutton(text="CTR", variable=self.mode, value="ctr", tristatevalue=0))
         self.init_radio()
 
@@ -80,7 +85,7 @@ class GUI(Tk):
             self.r[i].place(x=ACTION_X, y=y_action)
             y_action += OFFSET
             self.r[i].deselect()
-        for i in range(2, 5):
+        for i in range(2, 7):
             self.r[i].place(x=MODE_X, y=y_mode)
             y_mode += OFFSET
             self.r[i].deselect()
@@ -94,6 +99,10 @@ class GUI(Tk):
             mode = CBC()
         elif self.mode.get() == "ctr":
             mode = CTR()
+        elif self.mode.get() == "cfb":
+            mode = CFB()
+        elif self.mode.get() == "ofb":
+            mode = OFB()
         if mode is None:
             messagebox.showerror("Error", "You have to choose a mode.")
             exit()
