@@ -12,7 +12,7 @@ Następnie należy uruchomić skrypt 'main.py',aby otworzyć aplikację w trybie
 Aplikacja potrafi szyfrować i deszyforwać pliki w kilku trybach (ECB,CBC,CFB,OFB,CTR).
 Aby rozpocząć pracę należy wybrać akcję, tryb oraz interesujący nas plik i kliknąć 'run'. Pliki pozwalające na sensowny ich podgląd będą wyświetlane w miejscu
 okienek ze znakami zapytania.
-W celach dydaktycznych jest możliwość ustawienia poziomu błędu w szyfrogramie w procentach zarówno podczas szyforwania jak i deszyforwania.
+W celach dydaktycznych jest możliwość ustawienia poziomu błędu w szyfrogramie w procentach zarówno podczas szyforwania jak i deszyforwania (losowe piksele otrzymują losowe wartości, wytwarzany jest sztuczny szum).
 
 # Output
 Po szyfrowaniu w folderze data tworzony jest plik z rozszerzeniem '.secret'.
