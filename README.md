@@ -4,8 +4,8 @@
 Implementacja aplikacji szyfrującej i deszyfrującej pliki z wykorzystaniem kryptografii symetrycznej.
 
 # Instrukcja uruchomienia
-Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny 'setup.py' , który zainstaluje wszystkie potrzebne
-dependencje zawarte w pliku 'requirements.txt'
+Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny 'setup.py', który zainstaluje wszystkie potrzebne
+dependencje zawarte w pliku 'requirements.txt' zakładając, zę Python został zainstalowany ze wsparciem dla Tcl/Tk (potrzebne do działania tkinter, w którym jest napisane GUI), jeśli nie to można to naprawić pobierając jeszcze raz installer Pythona i zaznaczając tą opcję po kliknięciu w nim 'Modify'.
 Następnie należy uruchomić skrypt 'main.py',aby otworzyć aplikację w trybie graficznym.
 
 # Działanie
