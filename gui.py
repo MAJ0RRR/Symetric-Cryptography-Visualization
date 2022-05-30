@@ -153,14 +153,16 @@ class GUI(Tk):
             for m in modes:
                 m.run_encryption(self.path, 0)
                 m.run_decryption("data/tux-enc.bmp", i)
-                self.benchmark_dec[i][idx] = evaluate_benchmark("data/tux-enc-dec.bmp")
+                self.benchmark_dec[idx].append(evaluate_benchmark("data/tux-enc-dec.bmp"))
+                idx += 1
 
         for i in range(100):
             idx = 0
             for m in modes:
                 m.run_encryption(self.path, i)
                 m.run_decryption("data/tux-enc.bmp", 0)
-                self.benchmark_enc[i][idx] = evaluate_benchmark("data/tux-enc-dec.bmp")
+                self.benchmark_enc[idx].append(evaluate_benchmark("data/tux-enc-dec.bmp"))
+                idx += 1
 
 
     # Run GUI
