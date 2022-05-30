@@ -85,3 +85,13 @@ class Secret:
         secret = sec_file.read(length)
         sec_file.close()
         return secret
+
+    # # better to use:
+    # @staticmethod
+    # def load_key(file):
+    #     return Secret.load_secret(file)[0:32]
+    #
+    # @staticmethod
+    # def load_key_IV(file):
+    #     sec = Secret.load_secret(file)
+    #     return sec[0:32], sec[32:48]

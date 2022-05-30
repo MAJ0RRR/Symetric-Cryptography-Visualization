@@ -4,15 +4,15 @@
 Implementacja aplikacji szyfrującej i deszyfrującej pliki z wykorzystaniem kryptografii symetrycznej.
 
 # Instrukcja uruchomienia
-Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny poleceniem './setup.py' , który zainstaluje wszystkie potrzebne
-dependencje zawarte w pliku 'requirements.txt'
-Następnie polecenie './main.py' uruchamia aplikację w trybie graficznym.
+Wszystkie pliki należy umieścić w folderze, a następnie uruchomić skrypt inicjalizayjny 'setup.py', który zainstaluje wszystkie potrzebne
+dependencje zawarte w pliku 'requirements.txt' zakładając, zę Python został zainstalowany ze wsparciem dla Tcl/Tk (potrzebne do działania tkinter, w którym jest napisane GUI), jeśli nie to można to naprawić pobierając jeszcze raz installer Pythona i zaznaczając tą opcję po kliknięciu w nim 'Modify'.
+Następnie należy uruchomić skrypt 'main.py',aby otworzyć aplikację w trybie graficznym.
 
 # Działanie
 Aplikacja potrafi szyfrować i deszyforwać pliki w kilku trybach (ECB,CBC,CFB,OFB,CTR).
 Aby rozpocząć pracę należy wybrać akcję, tryb oraz interesujący nas plik i kliknąć 'run'. Pliki pozwalające na sensowny ich podgląd będą wyświetlane w miejscu
 okienek ze znakami zapytania.
-W celach dydaktycznych jest możliwość ustawienia poziomu błędu w szyfrogramie w procentach zarówno podczas szyforwania jak i deszyforwania.
+W celach dydaktycznych jest możliwość ustawienia poziomu błędu w szyfrogramie w procentach zarówno podczas szyforwania jak i deszyforwania (losowe piksele otrzymują losowe wartości, wytwarzany jest sztuczny szum).
 
 # Output
 Po szyfrowaniu w folderze data tworzony jest plik z rozszerzeniem '.secret'.
