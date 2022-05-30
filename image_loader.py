@@ -30,10 +30,11 @@ def evaluate_benchmark(file):
     output_pixels = list(output_rgb.getdata())
     errors = 0
 
-    for i in range(height*width):
+    for i in range(height * width):
         if benchmark_pixels[i] != output_pixels[i]:
             errors += 1
     return errors
+
 
 class ImageLoader:
     def __init__(self):

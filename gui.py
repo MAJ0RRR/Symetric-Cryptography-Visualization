@@ -9,7 +9,8 @@ from cfb import CFB
 from ofb import OFB
 import os
 from image_loader import evaluate_benchmark
-import matplotlib as plt
+import matplotlib.pyplot as plt
+import numpy as np
 
 P1_X = 100  # First Image X
 P2_X = 350  # Second Image X
@@ -147,6 +148,7 @@ class GUI(Tk):
         self.path = "data/tux.bmp"
         self.benchmark_dec = [[], [], [], [], [], []]
         self.benchmark_enc = [[], [], [], [], [], []]
+        labels = ["ecb","cbc","ctr","cfb","ofb"]
         modes = [ECB(), CBC(), CTR(), CFB(), OFB()]
         for i in range(100):
             idx = 0
@@ -163,6 +165,25 @@ class GUI(Tk):
                 m.run_decryption("data/tux-enc.bmp", 0)
                 self.benchmark_enc[idx].append(evaluate_benchmark("data/tux-enc-dec.bmp"))
                 idx += 1
+
+        x = np.linspace(0, 100, num=100)
+        for i in range(len(modes)):
+            plt.plot(x, self.benchmark_dec[i],label=labels[i])
+        plt.legend(labels)
+        plt.title("Przekłamane piksele w zależności od stopnia przekłamania szyfrogramu przy deszyfracji")
+        plt.xlabel("Stopeiń przekłamania (%)")
+        plt.ylabel("Ilość przekłamanych pikseli")
+        plt.savefig("data/benchmark_dec.png")
+        plt.show()
+
+        for i in range(len(modes)):
+            plt.plot(x, self.benchmark_enc[i], label=labels[i])
+        plt.legend(labels)
+        plt.title("Przekłamane piksele w zależności od stopnia przekłamania szyfrogramu przy szyfracji")
+        plt.xlabel("Stopeiń przekłamania (%)")
+        plt.ylabel("Ilość przekłamanych pikseli")
+        plt.savefig("data/benchmark_enc.png")
+        plt.show()
 
 
     # Run GUI
