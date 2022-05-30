@@ -2,8 +2,8 @@ import random
 from skimage.io import imread, imsave
 from numpy import reshape, frombuffer
 import numpy as np
-from PIL import Image
 import os
+from PIL import Image
 
 
 def filename_encrypted(file):
@@ -34,6 +34,43 @@ def evaluate_benchmark(file):
         if benchmark_pixels[i] != output_pixels[i]:
             errors += 1
     return errors
+
+
+class TxtLoader:
+    def __init__(self):
+        self.txt = None
+        self.img = None
+
+    def load_file(self, file):
+        with open(file, "rb") as txt_file:
+            self.txt = txt_file.read()
+
+    def to_vector(self):
+        v = self.txt
+        if len(v) % 16 != 0:
+            v += bytearray([0 for _ in range(16 - len(v) % 16)])
+        return v
+
+    def from_vector(self, vec, img=None):
+        self.txt = vec
+
+    def save_file(self, file):
+        with open(file, "wb") as txt_file:
+            txt_file.write(self.txt)
+
+    def simulate_error(self, file, error):
+        ret = bytearray(self.txt)
+        if error > 0:
+            error_amount = int(len(self.txt) * (error / 100))
+            idx = random.sample(range(len(self.txt)), error_amount)
+            for i in idx:
+                ret[i] = random.randint(0, 255)
+            self.txt = ret
+            filename = file.split('.')[0]
+            ext = file.split('.')[1]
+            path = filename + '-err.' + ext
+            self.save_file(path)
+        return self.to_vector()
 
 
 class ImageLoader:

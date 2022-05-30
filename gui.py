@@ -85,12 +85,13 @@ class GUI(Tk):
 
     # Put Image in custom location with provided path
     def open_img(self, path, x, y):
-        img = PIL.Image.open(path)
-        img = img.resize((RES, RES), PIL.Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(img)
-        panel = Label(self, image=img)
-        panel.image = img
-        panel.place(x=x, y=y)
+        if path.split('.')[1] != "txt":
+            img = PIL.Image.open(path)
+            img = img.resize((RES, RES), PIL.Image.ANTIALIAS)
+            img = ImageTk.PhotoImage(img)
+            panel = Label(self, image=img)
+            panel.image = img
+            panel.place(x=x, y=y)
 
     # Place and deselect all radio buttons
     def init_radio(self):
