@@ -2,6 +2,8 @@ import random
 from skimage.io import imread, imsave
 from numpy import reshape, frombuffer
 import numpy as np
+from PIL import Image
+import os
 
 
 def filename_encrypted(file):
@@ -17,6 +19,21 @@ def filename_decrypted(file):
     file_dec = file_name + "-dec." + file_type
     return file_dec
 
+
+def evaluate_benchmark(file):
+    benchmark = Image.open('data/tux.bmp')
+    benchmark_rgb = benchmark.convert("RGB")
+    benchmark_pixels = list(benchmark_rgb.getdata())
+    width, height = benchmark.size
+    output = Image.open(file)
+    output_rgb = output.convert("RGB")
+    output_pixels = list(output_rgb.getdata())
+    errors = 0
+
+    for i in range(height*width):
+        if benchmark_pixels[i] != output_pixels[i]:
+            errors += 1
+    return errors
 
 class ImageLoader:
     def __init__(self):
@@ -64,6 +81,7 @@ class Secret:
     @staticmethod
     def load_secret(file):
         sec_file = open(file + ".secret", "rb")
-        secret = sec_file.readline()
+        length = os.path.getsize(file + ".secret")
+        secret = sec_file.read(length)
         sec_file.close()
         return secret

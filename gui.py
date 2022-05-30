@@ -8,6 +8,8 @@ from ctr import CTR
 from cfb import CFB
 from ofb import OFB
 import os
+from image_loader import evaluate_benchmark
+import matplotlib as plt
 
 P1_X = 100  # First Image X
 P2_X = 350  # Second Image X
@@ -24,13 +26,15 @@ class GUI(Tk):
         super().__init__()
         self.title("Temat 14 - Kryptografia Symetryczna")
         self.width = 600
-        self.height = 800
+        self.height = 700
         self.geometry(f"{self.width}x{self.height}")
         self.resizable(False, False)
         icon = PhotoImage(file='data/icon.png')
         self.iconphoto(False, icon)
         self.configure(bg='#ede8b6')
         self.path = None
+        self.benchmark_enc = None
+        self.benchmark_dec = None
 
         # Default Images and  buttons
         self.open_img("data/blank.png", P1_X, P_Y)
@@ -40,6 +44,13 @@ class GUI(Tk):
         Label(text="Simulate error (%)").place(x=250, y=MENU_Y)
         self.error = Scale(from_=0, to=100, orient=HORIZONTAL, width=10)
         self.error.place(x=250, y=425)
+        self.visualize = IntVar()
+        Label(text="Visualize").place(x=250, y=MENU_Y + 125)
+        c = Checkbutton(text="Visualize", variable=self.visualize, onvalue=1, offvalue=0)
+        c.place(x=250, y=MENU_Y + 150)
+        c.select()
+        Label(text="Benchmark").place(x=250, y=MENU_Y + 200)
+        Button(text="Run Benchmark", command=self.run_benchmark, width=12).place(x=250, y=MENU_Y + 225)
 
         # Action and Mode Menu
         self.action = StringVar()
@@ -65,7 +76,10 @@ class GUI(Tk):
     # Get path of Image from dialog window and put it in default location
     def open_img_dialog(self):
         self.path = self.open_file()
-        self.open_img(self.path, P1_X, P_Y)
+        if self.visualize.get() == 1:
+            self.open_img(self.path, P1_X, P_Y)
+        else:
+            self.open_img("data/blank.png", P1_X, P_Y)
         self.open_img("data/blank.png", P2_X, P_Y)
 
     # Put Image in custom location with provided path
@@ -114,14 +128,40 @@ class GUI(Tk):
         if self.action.get() == "encrypt":
             mode.run_encryption(self.path, self.error.get())
             new_path = os.path.splitext(self.path)[0] + "-enc" + os.path.splitext(self.path)[1]
-            self.open_img(new_path, P2_X, P_Y)
+            if self.visualize.get() == 1:
+                self.open_img(new_path, P2_X, P_Y)
+            else:
+                self.open_img("data/blank.png", P2_X, P_Y)
         elif self.action.get() == "decrypt":
             mode.run_decryption(self.path, self.error.get())
             new_path = os.path.splitext(self.path)[0] + "-dec" + os.path.splitext(self.path)[1]
-            self.open_img(new_path, P2_X, P_Y)
+            if self.visualize.get() == 1:
+                self.open_img(new_path, P2_X, P_Y)
+            else:
+                self.open_img("data/blank.png", P2_X, P_Y)
         else:
             messagebox.showerror("Error", "You have to choose an action.")
             exit()
+
+    def run_benchmark(self):
+        self.path = "data/tux.bmp"
+        self.benchmark_dec = [[], [], [], [], [], []]
+        self.benchmark_enc = [[], [], [], [], [], []]
+        modes = [ECB(), CBC(), CTR(), CFB(), OFB()]
+        for i in range(100):
+            idx = 0
+            for m in modes:
+                m.run_encryption(self.path, 0)
+                m.run_decryption("data/tux-enc.bmp", i)
+                self.benchmark_dec[i][idx] = evaluate_benchmark("data/tux-enc-dec.bmp")
+
+        for i in range(100):
+            idx = 0
+            for m in modes:
+                m.run_encryption(self.path, i)
+                m.run_decryption("data/tux-enc.bmp", 0)
+                self.benchmark_enc[i][idx] = evaluate_benchmark("data/tux-enc-dec.bmp")
+
 
     # Run GUI
     def loop(self):
