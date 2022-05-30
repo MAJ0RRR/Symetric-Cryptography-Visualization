@@ -170,7 +170,7 @@ class GUI(Tk):
         for i in range(len(modes)):
             plt.plot(x, self.benchmark_dec[i],label=labels[i])
         plt.legend(labels)
-        plt.title("Przekłamane piksele w zależności od stopnia przekłamania szyfrogramu przy deszyfracji")
+        plt.title("Przekłamane przy deszyfracji")
         plt.xlabel("Stopeiń przekłamania (%)")
         plt.ylabel("Ilość przekłamanych pikseli")
         plt.savefig("data/benchmark_dec.png")
@@ -179,7 +179,7 @@ class GUI(Tk):
         for i in range(len(modes)):
             plt.plot(x, self.benchmark_enc[i], label=labels[i])
         plt.legend(labels)
-        plt.title("Przekłamane piksele w zależności od stopnia przekłamania szyfrogramu przy szyfracji")
+        plt.title("Przekłamanie przy szyfrowaniu")
         plt.xlabel("Stopeiń przekłamania (%)")
         plt.ylabel("Ilość przekłamanych pikseli")
         plt.savefig("data/benchmark_enc.png")
