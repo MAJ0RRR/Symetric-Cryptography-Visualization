@@ -147,8 +147,8 @@ class GUI(Tk):
 
     def run_benchmark(self):
         self.path = "data/tux.bmp"
-        self.benchmark_dec = [[], [], [], [], [], []]
-        self.benchmark_enc = [[], [], [], [], [], []]
+        self.benchmark_dec = [[], [], [], [], []]
+        self.benchmark_enc = [[], [], [], [], []]
         labels = ["ecb","cbc","ctr","cfb","ofb"]
         modes = [ECB(), CBC(), CTR(), CFB(), OFB()]
         for i in range(100):
